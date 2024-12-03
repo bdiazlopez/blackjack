@@ -396,3 +396,10 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+
+blackjack
+
+blackjack.o
+
+screen_utils.o
