@@ -76,9 +76,9 @@ public:
 
     void shuffle() {
         for (int i = 0; i < 52; i++) {
-            int val = std::rand() % 13;
+            int index = std::rand() % 13;
+            this->prepend(index);
         }
-        this->prepend(0);
     }
 
     void prepend(int value) {
@@ -162,7 +162,6 @@ int main(int argc, char* argv[]) {
 
     while (!status.complete && !status.exit) {
         if (status.input == "s" || status.input == "h") {
-            game.prepend(3);
             game.print();
             status.complete = true;
         }
