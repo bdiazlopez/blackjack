@@ -39,8 +39,6 @@ struct Cards {
 class Deck {
 private:
     Node* head;
-
-protected:
     Cards rank[13];
 
 public:
@@ -64,7 +62,7 @@ public:
         for (int i = 0; i < 13; i++) {
             rank[i].amount = 4 * status.deck_num;
         }
-
+        this->shuffle();
     }
 
     ~Deck() {
@@ -74,6 +72,13 @@ public:
             delete current;
             current = next;
         }
+    }
+
+    void shuffle() {
+        for (int i = 0; i < 52; i++) {
+            int val = std::rand() % 13;
+        }
+        this->prepend(0);
     }
 
     void prepend(int value) {
@@ -114,15 +119,37 @@ public:
     }
 };
 
-void welcome_message();
-void input_prompt();
-void invalid_user_input();
-void completion_message();
-void termination_message();
-void exit_message();
+void welcome_message() {
+    std::cout << "Welcome to Blackjack\n";
+    std::cout << "--------------------\n";
+    std::cout << "Enter '0' at any time to exit command line execution\n";
+    std::cout << "----------------------------------------------------\n";
+}
+
+void input_prompt() {
+    std::cout << "\t[ s ] Stand\t[ h ] Hit\n\n";
+    std::cout << "Would you like to hit or stand? ";
+}
+
+void invalid_user_input() {
+    std::cout << "Please enter valid input.\n";
+}
+
+void completion_message() {
+    std::cout << "Program execution complete.\n";
+}
+
+void termination_message() {
+    std::cout << "Termination by user input.\n";
+}
+
+void exit_message() {
+    std::cout << "Thank you for playing!\n\t";
+    std::cout << "-Press enter to return. ";
+}
 
 int main(int argc, char* argv[]) {
-    srand((unsigned int)time(NULL));
+    std::srand((unsigned int)std::time(NULL));
 
     if (argc > 1) {
         status.deck_num = std::stoi(argv[1]);
@@ -135,6 +162,8 @@ int main(int argc, char* argv[]) {
 
     while (!status.complete && !status.exit) {
         if (status.input == "s" || status.input == "h") {
+            game.prepend(3);
+            game.print();
             status.complete = true;
         }
         while (!status.valid && !status.exit) {
@@ -144,7 +173,9 @@ int main(int argc, char* argv[]) {
                 if (status.input == "0") {
                     status.exit = true;
                 } else {
+                    //clear_lines(3);
                     invalid_user_input();
+                    //move_cursor(4);
                 }
             } else {
                 status.valid = true;
@@ -160,33 +191,3 @@ int main(int argc, char* argv[]) {
     return 0;
 }
 
-void welcome_message() {
-    std::cout << "Welcome to Blackjack\n";
-    std::cout << "--------------------\n";
-    std::cout << "Enter '0' at any time to exit command line execution\n";
-    std::cout << "----------------------------------------------------\n";
-}
-
-void input_prompt() {
-    std::cout << "\t[ s ] Stand\t[ h ] Hit\n\n";
-    std::cout << "Would you like to hit or stand? ";
-}
-
-void invalid_user_input() {
-    clear_lines(3);
-    std::cout << "Please enter valid input.\n";
-    move_cursor(4);
-}
-
-void completion_message() {
-    std::cout << "Program execution complete.\n";
-}
-
-void termination_message() {
-    std::cout << "Termination by user input.\n";
-}
-
-void exit_message() {
-    std::cout << "Thank you for playing!\n\t";
-    std::cout << "-Press enter to return. ";
-}
