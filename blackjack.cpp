@@ -62,7 +62,7 @@ public:
         for (int i = 0; i < 13; i++) {
             rank[i].amount = 4 * status.deck_num;
         }
-        this->shuffle();
+        this->shuffle(status);
     }
 
     ~Deck() {
@@ -74,10 +74,14 @@ public:
         }
     }
 
-    void shuffle() {
-        for (int i = 0; i < 52; i++) {
-            int index = std::rand() % 13;
-            this->prepend(index);
+    void shuffle(const Status& status) {
+        for (int i = 0; i < 13 * 4 * status.deck_num; i++) {
+            int index = 0;
+            do {
+                index = std::rand() % 13;
+            } while (this->rank[index].amount == 0);
+            this->prepend(this->rank[index].value);
+            this->rank[index].amount += -1;
         }
     }
 
@@ -144,8 +148,8 @@ void termination_message() {
 }
 
 void exit_message() {
-    std::cout << "Thank you for playing!\n\t";
-    std::cout << "-Press enter to return. ";
+    std::cout << "Thank you for playing!\n\n";
+    std::cout << "-Press enter to return.\n";
 }
 
 int main(int argc, char* argv[]) {

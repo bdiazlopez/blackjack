@@ -1,2 +1,2 @@
 Multi-Deck Blackjack:
-Deck is intitialized with 2 decks unless assigned by command line arguement at execution as argv[1]
+Game is intitialized by a default numver of two decks unless assigned by user as command line arguement at execution as argv[1]
