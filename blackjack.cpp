@@ -74,14 +74,19 @@ public:
         }
     }
 
+    int get_card() {
+        int index = 0;
+        do {
+            index = std::rand() % 13;
+        } while (this->rank[index].amount == 0);
+        return index;
+    }
+
     void shuffle(const Status& status) {
         for (int i = 0; i < 13 * 4 * status.deck_num; i++) {
-            int index = 0;
-            do {
-                index = std::rand() % 13;
-            } while (this->rank[index].amount == 0);
-            this->prepend(this->rank[index].value);
-            this->rank[index].amount += -1;
+            int card = this->get_card();
+            this->prepend(this->rank[card].value);
+            this->rank[card].amount += -1;
         }
     }
 
@@ -92,7 +97,9 @@ public:
     }
 
     void remove(int value) {
-        if (head == nullptr) return; // Empty list
+        if (head == nullptr) {
+            return; // Empty list
+        }
 
         if (head->data == value) {
             Node* temp = head;
@@ -167,6 +174,8 @@ int main(int argc, char* argv[]) {
     while (!status.complete && !status.exit) {
         if (status.input == "s" || status.input == "h") {
             game.print();
+            game.remove(7);
+            game.print();
             status.complete = true;
         }
         while (!status.valid && !status.exit) {
@@ -176,9 +185,9 @@ int main(int argc, char* argv[]) {
                 if (status.input == "0") {
                     status.exit = true;
                 } else {
-                    //clear_lines(3);
+                    clear_lines(3);
                     invalid_user_input();
-                    //move_cursor(4);
+                    move_cursor(4);
                 }
             } else {
                 status.valid = true;
