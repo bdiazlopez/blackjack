@@ -162,8 +162,8 @@ void exit_message() {
 int main(int argc, char* argv[]) {
     std::srand((unsigned int)std::time(NULL));
 
-    if (argc > 1) {
-        status.deck_num = std::stoi(argv[1]);
+    if (argc > 1 && (std::stoi(argv[1]) >= 2)) {
+            status.deck_num = std::stoi(argv[1]);
     }
     Deck game(status);
 
@@ -173,8 +173,6 @@ int main(int argc, char* argv[]) {
 
     while (!status.complete && !status.exit) {
         if (status.input == "s" || status.input == "h") {
-            game.print();
-            game.remove(7);
             game.print();
             status.complete = true;
         }
